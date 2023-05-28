@@ -1,6 +1,8 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const helmet = require("helmet");
+const connectDB = require("./db/connect");
 
 // Helps secure the application by setting various HTTP headers
 app.use(helmet());
@@ -17,4 +19,13 @@ app.use("/api/v1/tasks", tasksRouter);
 
 const port = 3000;
 
-app.listen(port, () => console.log(`Server is listening on port ${port}...`));
+const start = async () => {
+  try {
+    await connectDB(process.env.CONNECTION_STRING);
+    app.listen(port, () => console.log(`Server is listening on port ${port}...`));
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+start();
