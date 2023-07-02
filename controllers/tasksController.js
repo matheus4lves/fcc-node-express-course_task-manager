@@ -4,13 +4,8 @@ const createTask = async (req, res) => {
   try {
     const task = await Task.create(req.body);
     res.status(201).json({ task });
-  } catch (err) {
-    const {
-      errors: {
-        name: { message },
-      },
-    } = err;
-    res.status(500).json({ error: message });
+  } catch (error) {
+    res.status(500).json({ error });
   }
 };
 
@@ -20,15 +15,11 @@ const getAllTasks = async (req, res) => {
   try {
     const tasks = await Task.find({});
     res.status(201).json({ tasks });
-  } catch (err) {
-    const {
-      errors: {
-        name: { message },
-      },
-    } = err;
-    res.status(500).json({ error: message });
+  } catch (error) {
+    res.status(500).json({ error });
   }
 };
+
 const updateTask = (req, res) => res.json({ id: req.params.id, updated: req.body.updated });
 const deleteTask = (req, res) => res.json({ id: req.params.id, deleted: true });
 
