@@ -32,6 +32,20 @@ const getAllTasks = async (req, res) => {
 };
 
 const updateTask = (req, res) => res.json({ id: req.params.id, updated: req.body.updated });
-const deleteTask = (req, res) => res.json({ id: req.params.id, deleted: true });
+
+const deleteTask = async (req, res) => {
+  try {
+    const { id: taskID } = req.params;
+    const task = await Task.findOneAndDelete({ _id: taskID });
+    if (!task) {
+      return res.status(404).json({ msg: `No task with id: ${taskID}` });
+    }
+    // res.status(200).json({ task }); // Only to see which task has been removed
+    // I'm gonna stick to this approach since I don't really need the task data
+    res.status(200).send();
+  } catch (error) {
+    res.status(500).json({ error });
+  }
+};
 
 module.exports = { createTask, getTask, getAllTasks, updateTask, deleteTask };
