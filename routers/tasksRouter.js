@@ -1,8 +1,8 @@
 const express = require("express");
+// The job of a router is to route requests to the appropriate controller
 const router = express.Router();
 
-// Controllers. The job of a controller is to handle the request using the data and logic
-// (properties and methods in OOP terms) provided by a model.
+// Controller
 const { createTask, getTask, getAllTasks, updateTask, deleteTask } = require("../controllers/tasksController");
 
 router.route("/").get(getAllTasks).post(createTask);

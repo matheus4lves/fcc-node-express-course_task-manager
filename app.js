@@ -14,7 +14,7 @@ app.use(express.json());
 // Routers
 const tasksRouter = require("./routers/tasksRouter");
 
-// Routes. The job of a router is to router the request to the appropriate controller
+// Routes
 app.use("/api/v1/tasks", tasksRouter);
 
 const port = 3000;

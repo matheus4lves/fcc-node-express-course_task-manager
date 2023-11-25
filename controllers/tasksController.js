@@ -1,5 +1,10 @@
+// The job of a controller is to handle requests using the data and logic
+// (properties and methods in OOP terms) provided by a Model.
+
+// Model
 const Task = require("../models/Task");
 
+// A controller can have as many functions as it requires.
 const createTask = async (req, res) => {
   try {
     const task = await Task.create(req.body);
@@ -62,4 +67,6 @@ const updateTask = async (req, res) => {
   }
 };
 
+// By exporting an object you make the interface clear to users of your module.
+// In other words, they don't have to scroll through your code to see what is being exported.
 module.exports = { createTask, getTask, getAllTasks, updateTask, deleteTask };
