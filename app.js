@@ -5,11 +5,21 @@ const helmet = require("helmet");
 const connectDB = require("./db/connect");
 
 // Helps secure the application by setting various HTTP headers
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        scriptSrc: ["'self'", "https://cdn.jsdelivr.net/"],
+      },
+    },
+  })
+);
 
 /* Parses incoming requests with JSON payloads and creates a **body** object
 containing the parsed data in the request object (**req.body**) */
 app.use(express.json());
+
+app.use(express.static("public"));
 
 // Routers
 const tasksRouter = require("./routers/tasksRouter");
