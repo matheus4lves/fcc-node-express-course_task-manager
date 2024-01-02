@@ -6,6 +6,7 @@ const connectDB = require("./db/connect");
 
 // Custom middlewares
 const notFound = require("./middlewares/not-found");
+const errorHandler = require("./middlewares/error-handler");
 
 // Helps secure the application by setting various HTTP headers
 app.use(
@@ -32,6 +33,9 @@ const tasksRouter = require("./routers/tasksRouter");
 app.use("/api/v1/tasks", tasksRouter);
 
 app.use(notFound);
+
+// This must be added after all the routes, including the "Not Found" route
+app.use(errorHandler);
 
 const port = 3000;
 
