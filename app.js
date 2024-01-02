@@ -4,6 +4,9 @@ const app = express();
 const helmet = require("helmet");
 const connectDB = require("./db/connect");
 
+// Custom middlewares
+const notFound = require("./middlewares/not-found");
+
 // Helps secure the application by setting various HTTP headers
 app.use(
   helmet({
@@ -25,7 +28,10 @@ app.use(express.static("public"));
 const tasksRouter = require("./routers/tasksRouter");
 
 // Routes
+// You want to forward requests made to this route to this router
 app.use("/api/v1/tasks", tasksRouter);
+
+app.use(notFound);
 
 const port = 3000;
 
