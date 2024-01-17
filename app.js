@@ -37,7 +37,7 @@ app.use(notFound);
 // This must be added after all the routes, including the "Not Found" route
 app.use(errorHandler);
 
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 const start = async () => {
   try {

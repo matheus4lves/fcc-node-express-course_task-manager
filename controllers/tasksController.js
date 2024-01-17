@@ -4,6 +4,8 @@
 
 const asyncWrapper = require("../middlewares/async");
 
+const { createCustomError } = require("../errors/custom-error");
+
 // Model
 const Task = require("../models/Task");
 
@@ -16,11 +18,13 @@ const createTask = asyncWrapper(async (req, res) => {
   res.status(201).json({ task });
 });
 
-const getTask = asyncWrapper(async (req, res) => {
+const getTask = asyncWrapper(async (req, res, next) => {
   const { id: taskID } = req.params;
   const task = await Task.findById({ _id: taskID });
   if (!task) {
-    return res.status(404).json({ msg: `No task with id: ${taskID}` });
+    // Create an error and pass it to an error-handling middleware
+    // Don't forget that `next()` call the next middleware.
+    return next(createCustomError(`No task with id: ${taskID}`, 404));
   }
   res.status(200).json({ task });
 });
@@ -34,7 +38,7 @@ const deleteTask = asyncWrapper(async (req, res) => {
   const { id: taskID } = req.params;
   const task = await Task.findOneAndDelete({ _id: taskID });
   if (!task) {
-    return res.status(404).json({ msg: `No task with id: ${taskID}` });
+    return next(createCustomError(`No task with id: ${taskID}`, 404));
   }
   // res.status(200).json({ task }); // Only to see which task has been removed
   // I'm gonna stick to this approach since I don't really need the task data
@@ -48,7 +52,7 @@ const updateTask = asyncWrapper(async (req, res) => {
     runValidators: true,
   });
   if (!task) {
-    return res.status(404).json({ msg: `No task with id: ${taskID}` });
+    return next(createCustomError(`No task with id: ${taskID}`, 404));
   }
   res.status(200).json({ task });
 });
