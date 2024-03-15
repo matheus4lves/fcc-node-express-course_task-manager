@@ -1,11 +1,15 @@
-const tasksDOM = document.querySelector(".tasks");
-const loadingDOM = document.querySelector(".loading-text");
-const formDOM = document.querySelector(".task-form");
-const taskInputDOM = document.querySelector(".task-input");
-const formAlertDOM = document.querySelector(".form-alert");
+import axios from "https://cdn.jsdelivr.net/npm/axios@1.6.7/+esm";
+
+const tasksDOM = document.querySelector(".tasks")! as HTMLDivElement;
+const loadingDOM = document.querySelector(".loading-text")! as HTMLParagraphElement;
+const formDOM = document.querySelector(".task-form")! as HTMLFormElement;
+const taskInputDOM = document.querySelector(".task-input")! as HTMLInputElement;
+const formAlertDOM = document.querySelector(".form-alert")! as HTMLDivElement;
+
 // Load tasks from /api/tasks
 const showTasks = async () => {
   loadingDOM.style.visibility = "visible";
+
   try {
     const {
       data: { tasks },
@@ -15,43 +19,53 @@ const showTasks = async () => {
       loadingDOM.style.visibility = "hidden";
       return;
     }
+
     const allTasks = tasks
-      .map(task => {
+      .map((task: any) => {
         const { completed, _id: taskID, name } = task;
-        return `<div class="single-task ${completed && "task-completed"}">
-<h5><span><i class="far fa-check-circle"></i></span>${name}</h5>
-<div class="task-links">
 
+        console.log(typeof taskID);
 
-
-<!-- edit link -->
-<a href="task.html?id=${taskID}"  class="edit-link">
-<i class="fas fa-edit"></i>
-</a>
-<!-- delete btn -->
-<button type="button" class="delete-btn" data-id="${taskID}">
-<i class="fas fa-trash"></i>
-</button>
-</div>
-</div>`;
+        return `
+          <div class="single-task ${completed && "task-completed"}">
+            <h5><span><i class="far fa-check-circle"></i></span>${name}</h5>
+            <div class="task-links">
+              <!-- edit link -->
+              <a href="task.html?id=${taskID}"  class="edit-link">
+                <i class="fas fa-edit"></i>
+              </a>
+              <!-- delete btn -->
+              <button type="button" class="delete-btn" data-id="${taskID}">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          </div>
+        `;
       })
       .join("");
+
     tasksDOM.innerHTML = allTasks;
   } catch (error) {
     tasksDOM.innerHTML = '<h5 class="empty-list">There was an error, please try later....</h5>';
   }
+
   loadingDOM.style.visibility = "hidden";
 };
 
 showTasks();
 
 // delete task /api/tasks/:id
+tasksDOM.addEventListener("click", async event => {
+  /* The type of event.target is EventTarget | null. But you know you're targeting
+  an `<i>` element. However, there's no type for this element. As a workaround, cast
+  it to a generic HTMLElement */
+  const el = event.target as HTMLElement;
 
-tasksDOM.addEventListener("click", async e => {
-  const el = e.target;
-  if (el.parentElement.classList.contains("delete-btn")) {
+  /* Now, the `parentElement` is of type HTMLElement | null, but you know that it
+  is a `<button>` element. You can use cast again to tell tsc it. */
+  if ((el.parentElement as HTMLButtonElement).classList.contains("delete-btn")) {
     loadingDOM.style.visibility = "visible";
-    const id = el.parentElement.dataset.id;
+    const id = (el.parentElement as HTMLButtonElement).dataset.id;
     try {
       await axios.delete(`/api/v1/tasks/${id}`);
       showTasks();
@@ -59,6 +73,7 @@ tasksDOM.addEventListener("click", async e => {
       console.log(error);
     }
   }
+
   loadingDOM.style.visibility = "hidden";
 });
 
