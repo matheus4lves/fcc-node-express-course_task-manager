@@ -18,7 +18,7 @@ const app = express();
 const helmet = require("helmet");
 const connect_cjs_1 = __importDefault(require("./db/connect.cjs"));
 // Custom middlewares
-const notFound = require("./middlewares/not-found.cjs");
+const not_found_cjs_1 = __importDefault(require("./middlewares/not-found.cjs"));
 const errorHandler = require("./middlewares/error-handler.cjs");
 // Helps secure the application by setting various HTTP headers
 app.use(helmet({
@@ -40,7 +40,7 @@ const tasksRouter = require("./routers/tasksRouter.cjs");
 // Routes
 // You want to forward requests made to this route to this router
 app.use("/api/v1/tasks", tasksRouter);
-app.use(notFound);
+app.use(not_found_cjs_1.default);
 // This must be added after all the routes, including the "Not Found" route
 app.use(errorHandler);
 const port = process.env.PORT || 3000;
