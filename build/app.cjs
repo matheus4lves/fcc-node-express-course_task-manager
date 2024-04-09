@@ -19,7 +19,7 @@ const helmet = require("helmet");
 const connect_cjs_1 = __importDefault(require("./db/connect.cjs"));
 // Custom middlewares
 const not_found_cjs_1 = __importDefault(require("./middlewares/not-found.cjs"));
-const errorHandler = require("./middlewares/error-handler.cjs");
+const error_handler_cjs_1 = __importDefault(require("./middlewares/error-handler.cjs"));
 // Helps secure the application by setting various HTTP headers
 app.use(helmet({
     // Your policy should include a default-src policy directive, which is a fallback
@@ -42,7 +42,7 @@ const tasksRouter = require("./routers/tasksRouter.cjs");
 app.use("/api/v1/tasks", tasksRouter);
 app.use(not_found_cjs_1.default);
 // This must be added after all the routes, including the "Not Found" route
-app.use(errorHandler);
+app.use(error_handler_cjs_1.default);
 const port = process.env.PORT || 3000;
 const start = () => __awaiter(void 0, void 0, void 0, function* () {
     try {

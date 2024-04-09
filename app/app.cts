@@ -6,7 +6,7 @@ import connectDB from "./db/connect.cjs";
 
 // Custom middlewares
 import notFound from "./middlewares/not-found.cjs";
-const errorHandler = require("./middlewares/error-handler.cjs");
+import errorHandler from "./middlewares/error-handler.cjs";
 
 // Helps secure the application by setting various HTTP headers
 app.use(

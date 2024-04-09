@@ -1,6 +1,7 @@
-const { CustomError } = require("../errors/custom-error");
+import { ErrorRequestHandler } from "express";
+import { CustomError } from "../errors/custom-error.cjs";
 
-const errorHandler = (error, req, res, next) => {
+const errorHandler: ErrorRequestHandler = (error, _req, res, _next) => {
   // Your custom error message
   if (error instanceof CustomError) {
     res.status(error.statusCode).json({ msg: error.message });
@@ -10,4 +11,4 @@ const errorHandler = (error, req, res, next) => {
   res.status(500).json({ msg: "Something went wrong! Try again later." });
 };
 
-module.exports = errorHandler;
+export default errorHandler;
