@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 dotenv.config();
-const express = require("express");
+import express from "express";
 const app = express();
 const helmet = require("helmet");
 import connectDB from "./db/connect.cjs";

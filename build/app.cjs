@@ -14,8 +14,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
-const express = require("express");
-const app = express();
+const express_1 = __importDefault(require("express"));
+const app = (0, express_1.default)();
 const helmet = require("helmet");
 const connect_cjs_1 = __importDefault(require("./db/connect.cjs"));
 // Custom middlewares
@@ -34,8 +34,8 @@ app.use(helmet({
 }));
 /* Parses incoming requests with JSON payloads and creates a **body** object
 containing the parsed data in the request object (**req.body**) */
-app.use(express.json());
-app.use(express.static("build/public"));
+app.use(express_1.default.json());
+app.use(express_1.default.static("build/public"));
 // Routers
 const tasksRouter = require("./routers/tasksRouter.cjs");
 // Routes
