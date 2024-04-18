@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 dotenv.config();
 import express from "express";
 const app = express();
-const helmet = require("helmet");
+import helmet from "helmet";
 import connectDB from "./db/connect.cjs";
 
 // Custom middlewares

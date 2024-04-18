@@ -16,13 +16,13 @@ const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const express_1 = __importDefault(require("express"));
 const app = (0, express_1.default)();
-const helmet = require("helmet");
+const helmet_1 = __importDefault(require("helmet"));
 const connect_cjs_1 = __importDefault(require("./db/connect.cjs"));
 // Custom middlewares
 const not_found_cjs_1 = __importDefault(require("./middlewares/not-found.cjs"));
 const error_handler_cjs_1 = __importDefault(require("./middlewares/error-handler.cjs"));
 // Helps secure the application by setting various HTTP headers
-app.use(helmet({
+app.use((0, helmet_1.default)({
     // Your policy should include a default-src policy directive, which is a fallback
     // for other resource types when they don't have policies of their own
     contentSecurityPolicy: {
