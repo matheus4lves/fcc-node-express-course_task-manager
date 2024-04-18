@@ -2,18 +2,18 @@
 // (properties and methods in OOP terms) provided by a Model.
 // A controller can have as many handler functions as it requires.
 
-const asyncWrapper = require("../middlewares/async");
+import asyncWrapper from "../middlewares/async.cjs";
 
-const { createCustomError } = require("../errors/custom-error");
+import { createCustomError } from "../errors/custom-error.cjs";
 
 // Model
-const Task = require("../models/Task");
+const Task = require("../models/Task.cjs");
 
 // Makes a call to `asyncWrapper` passing a function as an argument.
 // `asyncWrapper` returns a function. The function gets access to anything
 // Express passes to it (req, res etc.) and uses this data with the function
 // it received as an argument to do its job.
-const createTask = asyncWrapper(async (req, res) => {
+const createTask = asyncWrapper(async (req, res, _next) => {
   const task = await Task.create(req.body);
   res.status(201).json({ task });
 });
@@ -29,12 +29,12 @@ const getTask = asyncWrapper(async (req, res, next) => {
   res.status(200).json({ task });
 });
 
-const getAllTasks = asyncWrapper(async (req, res) => {
+const getAllTasks = asyncWrapper(async (_req, res, _next) => {
   const tasks = await Task.find({});
   res.status(201).json({ tasks });
 });
 
-const deleteTask = asyncWrapper(async (req, res) => {
+const deleteTask = asyncWrapper(async (req, res, next) => {
   const { id: taskID } = req.params;
   const task = await Task.findOneAndDelete({ _id: taskID });
   if (!task) {
@@ -45,7 +45,7 @@ const deleteTask = asyncWrapper(async (req, res) => {
   res.status(200).send();
 });
 
-const updateTask = asyncWrapper(async (req, res) => {
+const updateTask = asyncWrapper(async (req, res, next) => {
   const { id: taskID } = req.params;
   const task = await Task.findOneAndUpdate({ _id: taskID }, req.body, {
     new: true,
