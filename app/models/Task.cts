@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 // We start by defining a schema
 const TaskSchema = new mongoose.Schema({
@@ -16,4 +16,4 @@ const TaskSchema = new mongoose.Schema({
 
 // Then we compile the schema into a model (which is a class) that
 // is going to be used to create documents
-module.exports = mongoose.model("Task", TaskSchema);
+export default mongoose.model("Task", TaskSchema);

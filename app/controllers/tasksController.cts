@@ -7,7 +7,7 @@ import asyncWrapper from "../middlewares/async.cjs";
 import { createCustomError } from "../errors/custom-error.cjs";
 
 // Model
-const Task = require("../models/Task.cjs");
+import Task from "../models/Task.cjs";
 
 // Makes a call to `asyncWrapper` passing a function as an argument.
 // `asyncWrapper` returns a function. The function gets access to anything
