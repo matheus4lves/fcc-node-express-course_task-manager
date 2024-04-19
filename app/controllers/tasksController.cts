@@ -59,4 +59,4 @@ const updateTask = asyncWrapper(async (req, res, next) => {
 
 // By exporting an object you make the interface clear to users of your module.
 // In other words, they don't have to scroll through your code to see what is being exported.
-module.exports = { createTask, getTask, getAllTasks, updateTask, deleteTask };
+export { createTask, getTask, getAllTasks, updateTask, deleteTask };

@@ -13,14 +13,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv_1 = __importDefault(require("dotenv"));
-dotenv_1.default.config();
 const express_1 = __importDefault(require("express"));
-const app = (0, express_1.default)();
 const helmet_1 = __importDefault(require("helmet"));
 const connect_cjs_1 = __importDefault(require("./db/connect.cjs"));
 // Custom middlewares
 const not_found_cjs_1 = __importDefault(require("./middlewares/not-found.cjs"));
 const error_handler_cjs_1 = __importDefault(require("./middlewares/error-handler.cjs"));
+// Routers
+const tasksRouter_cjs_1 = __importDefault(require("./routers/tasksRouter.cjs"));
+dotenv_1.default.config();
+const app = (0, express_1.default)();
+// Just to be more descriptive...
+const tasksRouter = tasksRouter_cjs_1.default;
 // Helps secure the application by setting various HTTP headers
 app.use((0, helmet_1.default)({
     // Your policy should include a default-src policy directive, which is a fallback
@@ -36,8 +40,6 @@ app.use((0, helmet_1.default)({
 containing the parsed data in the request object (**req.body**) */
 app.use(express_1.default.json());
 app.use(express_1.default.static("build/public"));
-// Routers
-const tasksRouter = require("./routers/tasksRouter.cjs");
 // Routes
 // You want to forward requests made to this route to this router
 app.use("/api/v1/tasks", tasksRouter);

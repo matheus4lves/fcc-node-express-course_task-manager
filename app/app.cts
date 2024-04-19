@@ -1,13 +1,19 @@
 import dotenv from "dotenv";
-dotenv.config();
 import express from "express";
-const app = express();
 import helmet from "helmet";
 import connectDB from "./db/connect.cjs";
 
 // Custom middlewares
 import notFound from "./middlewares/not-found.cjs";
 import errorHandler from "./middlewares/error-handler.cjs";
+
+// Routers
+import router from "./routers/tasksRouter.cjs";
+
+dotenv.config();
+const app = express();
+// Just to be more descriptive...
+const tasksRouter = router;
 
 // Helps secure the application by setting various HTTP headers
 app.use(
@@ -28,9 +34,6 @@ containing the parsed data in the request object (**req.body**) */
 app.use(express.json());
 
 app.use(express.static("build/public"));
-
-// Routers
-const tasksRouter = require("./routers/tasksRouter.cjs");
 
 // Routes
 // You want to forward requests made to this route to this router

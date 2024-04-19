@@ -15,6 +15,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.deleteTask = exports.updateTask = exports.getAllTasks = exports.getTask = exports.createTask = void 0;
 const async_cjs_1 = __importDefault(require("../middlewares/async.cjs"));
 const custom_error_cjs_1 = require("../errors/custom-error.cjs");
 // Model
@@ -27,6 +28,7 @@ const createTask = (0, async_cjs_1.default)((req, res, _next) => __awaiter(void 
     const task = yield Task_cjs_1.default.create(req.body);
     res.status(201).json({ task });
 }));
+exports.createTask = createTask;
 const getTask = (0, async_cjs_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { id: taskID } = req.params;
     const task = yield Task_cjs_1.default.findById({ _id: taskID });
@@ -37,10 +39,12 @@ const getTask = (0, async_cjs_1.default)((req, res, next) => __awaiter(void 0, v
     }
     res.status(200).json({ task });
 }));
+exports.getTask = getTask;
 const getAllTasks = (0, async_cjs_1.default)((_req, res, _next) => __awaiter(void 0, void 0, void 0, function* () {
     const tasks = yield Task_cjs_1.default.find({});
     res.status(201).json({ tasks });
 }));
+exports.getAllTasks = getAllTasks;
 const deleteTask = (0, async_cjs_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { id: taskID } = req.params;
     const task = yield Task_cjs_1.default.findOneAndDelete({ _id: taskID });
@@ -51,6 +55,7 @@ const deleteTask = (0, async_cjs_1.default)((req, res, next) => __awaiter(void 0
     // I'm gonna stick to this approach since I don't really need the task data
     res.status(200).send();
 }));
+exports.deleteTask = deleteTask;
 const updateTask = (0, async_cjs_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { id: taskID } = req.params;
     const task = yield Task_cjs_1.default.findOneAndUpdate({ _id: taskID }, req.body, {
@@ -62,6 +67,4 @@ const updateTask = (0, async_cjs_1.default)((req, res, next) => __awaiter(void 0
     }
     res.status(200).json({ task });
 }));
-// By exporting an object you make the interface clear to users of your module.
-// In other words, they don't have to scroll through your code to see what is being exported.
-module.exports = { createTask, getTask, getAllTasks, updateTask, deleteTask };
+exports.updateTask = updateTask;
